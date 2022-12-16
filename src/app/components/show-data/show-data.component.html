@@ -1,0 +1,58 @@
+<div class="grid">
+    <div class="col-6">
+        <form [formGroup]="editForm">
+            <div class="card">
+                <h1>Rare Crew</h1>
+                <p-table [value]="employeesCombined" dataKey="Id" editMode="row" [tableStyle]="{'min-width': '50rem'}">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width:40%">Name</th>
+                            <th style="width:40%">Total Time in Month</th>
+                            <th style="width:20%">Actions</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-employee let-editing="editing" let-ri="rowIndex">
+                        <tr [pEditableRow]="employee" [ngClass]="checkWorkHours(employee.WorkTime)">
+                            <td>
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText type="text" formControlName="employeeName">
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{employee.EmployeeName}}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td>
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText type="text" formControlName="workTime">
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{employee.WorkTime}} hrs
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td>
+                                <div class="flex align-items-center justify-content-center gap-2">
+                                    <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow
+                                        icon="pi pi-pencil" (click)="onRowEditInit(employee)"
+                                        class="p-button-rounded p-button-text"></button>
+                                    <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow
+                                        icon="pi pi-check" (click)="onRowEditSave(employee)"
+                                        class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                                    <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow
+                                        icon="pi pi-times"
+                                        class="p-button-rounded p-button-text p-button-danger"></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </form>
+    </div>
+    <div class="col-6" *ngIf="chartShow">
+        <apx-chart [series]="chartSeries" [chart]="chartDetails" [labels]="chartLabels"></apx-chart>
+    </div>
+</div>
